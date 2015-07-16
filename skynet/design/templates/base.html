@@ -1,0 +1,134 @@
+{% load staticfiles %}{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/common.js' %}"></script>
+    {% block head %} {% endblock head %}
+</head>
+
+<body style="padding-top:50px">
+    {% block topnav %}
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="header">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/" id="logo">myNotation</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="upload">{{ user.username }} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'account_logout' %}">Sign Out</a>
+                            </li>
+                            <li><a href="#">Settings</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'account_signup' %}">Sign Up</a> 
+                    </li>
+                    <li>
+                        <a href="{% url 'account_login' %}">Sign In</a> 
+                    </li>
+                    {% endif %}
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    {% if user.is_authenticated %}
+                    <a class="btn btn-default" href="/design/create/" id="upload">Upload</a>
+                    <a class="btn btn-default" href="/design/create/" id="notification">
+                        Notification <span class="badge">0</span>
+                    </a>
+                    {% endif %}
+                </form>
+
+            </div>
+        </div>
+    </nav>
+    {% endblock topnav %}
+    <div class="container">
+        {% block content %} {% endblock content %}
+    </div>
+    <div id="pin_detail" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Pin</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pin_form" class="hide">
+        <form method="post" action="/design/pin/create/?d={{object.pk}}" data-id="{{object.pk}}">
+
+            {% csrf_token %}
+            <div style="display: none;" class="form-group">
+                <label class="control-label  requiredField">
+                    X pixel
+                    <span class="asteriskField">*</span>
+                </label>
+                <div class="controls ">
+                    <input class="numberinput form-control" name="x" step="any" type="number">
+                </div>
+            </div>
+            <div style="display: none;" class="form-group">
+                <label class="control-label  requiredField">
+                    Y pixel
+                    <span class="asteriskField">*</span>
+                </label>
+                <div class="controls ">
+                    <input class="numberinput form-control" name="y" step="any" type="number">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label  requiredField">
+                    Category
+                    <span class="asteriskField">*</span>
+                </label>
+                <div class="controls ">
+                    <select class="select form-control" name="category">
+                        <option value="" selected="selected">---------</option>
+                        <option value="color">color</option>
+                        <option value="structure">structure</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label  requiredField">
+                    Msg
+                    <span class="asteriskField">*</span>
+                </label>
+                <div class="controls ">
+                    <textarea rows="5" class="textarea form-control" cols="40" name="msg"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            {# todo: ajax #}
+        </form>
+    </div>
+    {% block script %} {% endblock script %}
+</body>
+
+</html>

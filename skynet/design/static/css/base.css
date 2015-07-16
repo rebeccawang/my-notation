@@ -1,0 +1,74 @@
+body {
+    font-family:'Open Sans', sans-serif;
+}
+
+ul.tile {
+    list-style-type: none;
+    position: relative;
+    /** Needed to ensure items are laid out relative to this container **/
+    margin: 0;
+    padding: 0;
+}
+.tile li {
+  width: 283px;
+  background-color: #ffffff;
+  border: 1px solid #dedede;
+  display: none; /** Hide items initially to avoid a flicker effect **/
+  cursor: pointer;
+  padding: 4px;
+}
+
+.tile li.inactive {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.tile li img {
+  display: block;
+}
+#id_honeypot {
+  display: none;
+}
+#id_comment {
+  height: 60px;
+  width: 100%;
+}
+#header{
+  background-color: #34495e;
+  color: white;
+}
+#logo{
+  color: white;
+}
+#upload{
+  border: none;
+  background-color: #34495e;
+  color: white;
+}
+#notification {
+  border: none;
+  background-color: #34495e;
+  color: white;  
+}
+span.pin {
+  margin:15px 0 0 -5px;
+  background-color: #34495e;
+  border: 1px solid #34495e;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+}
+.popover {
+  margin-top: 130px;
+  width: 400px;
+  height: 300px;
+}
+.popover.right > .arrow {
+  top:6%;
+}
+.popover.left > .arrow {
+  top:6%;
+}
+#map {
+  border: 3px solid #34495e; 
+}

@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% load thumbnail %} {% load staticfiles %} {% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/dropPin.css' %}">{% endblock head %}{% block content %}
+<h1></h1>
+{% thumbnail object.upload "1140" as im %}
+<div id="map">
+    <img src="{{ im.url }}" id="img_design" data-height="{{im.height}}" data-width="{{im.width}}">
+</div>
+{% endthumbnail %}
+<h1>{{ object.title|title }}</h1>
+<p>by {{ object.user.username }}</p>
+<p>{{ object.description|linebreaks }}</p>
+<p>
+    <a href="update/" class="btn btn-primary">Update</a>
+    <a href="#" class="btn btn-primary">Add Revision</a>
+    <a href="delete/" class="btn btn-primary">Delete</a>
+</p>
+{% endblock content %} {% block script %}
+<script type="text/javascript" src="{% static 'js/dropPin.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#map').dropPin({
+        pin: '{% static "images/default_pin.png" %}'
+    })
+    $('#map').dropPin('showPins', {
+        pin: '{% static "images/default_pin.png" %}',
+        pinDataSet: '/design/' + {{object.pk}} + '/'
+    });
+});
+</script>
+{% endblock script %}

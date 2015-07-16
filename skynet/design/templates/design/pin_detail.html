@@ -1,0 +1,25 @@
+{% load comments %}
+<p>
+    Category: {{ object.category }}
+</p>
+<p>
+    Message: {{ object.msg }}
+</p>
+<h3>Comments</h3>
+<hr/>
+{% render_comment_list for object %}
+{% if user.is_authenticated %}
+    {% get_comment_form for object as form %}
+    <form action="{% comment_form_target %}" method="POST">
+    {% csrf_token %}
+    {{ form.comment }}
+    {{ form.honeypot }}
+    {{ form.content_type }}
+    {{ form.object_pk }}
+    {{ form.timestamp }}
+    {{ form.security_hash }}
+    <input type="submit" value="Add comment" id="id_submit" />
+    </form>
+{% else %}
+    <p>Please <a href="{% url 'auth_login' %}">log in</a> to leave a comment.</p>
+{% endif %}
